@@ -1,101 +1,243 @@
+
+import  NewsCard from "@/components/newsCard";
+import { OutlineBox } from "@/components/outlineBox";
+import { PriceCard } from "@/components/priceCard";
+import { QA } from "@/components/qa";
+import { Reviews } from "@/components/reviewCard";
+import { TopBar } from "@/components/topBar";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
+
+const capabilities = [
+  {
+    title: "Роутинг",
+    text: "Клоакинг, распределение переходов в зависимости от множества условий, таких как ОС, браузер, страна, город, а также возможность отследить установлен ли в браузере AdBlock или Metamask и перенаправить таких пользователей на нужный сайт."
+  },
+  {
+    title: "Скрытие основного сайта",
+    text: "Если нужно скрыть основной сайт от модераторов рекламных сетей или других пользователей, можно указать 'белый' сайт, который они увидят при переходе по ссылке. Это может быть выполнено через редирект или подгрузку страницы без редиректа."
+  },
+  {
+    title: "Собственные базы IP",
+    text: "Доступны собственные базы с IP таких сервисов, как Facebook, Google, Яндекс, VK."
+  },
+  {
+    title: "Запасные ссылки",
+    text: "Возможность указать дополнительные ссылки для перенаправления пользователей в случае блокировки основных ссылок различными сервисами."
+  },
+  {
+    title: "Команды",
+    text: "Возможность добавлять пользователей, распределять им роли и доступы к системе. Подключение Telegram-групп для получения важных оповещений о действиях команды в одном месте для оперативной реакции."
+  },
+  {
+    title: "Мониторинг ссылок и доменов",
+    text: "Все домены и ссылки мониторятся на предмет блокировки различными сервисами, которые могут ограничивать трафик. В настоящее время отслеживаются такие сервисы, как Google Safe Browsing, AdBlock, PhishFort, Ultimate Hosts Blacklist, Metamask."
+  },
+  {
+    title: "Абузоустойчивый сервер",
+    text: "Ссылки остаются защищёнными: другие менеджеры могут удалять ссылки по жалобам, а с данным решением ваши ссылки будут защищены, и ценный трафик не будет потерян."
+  },
+  {
+    title: "Более 100 доменов",
+    text: "Можно привязать свои домены и по желанию сгенерировать SSL-сертификат для обеспечения безопасного подключения."
+  },
+  {
+    title: "Макросы",
+    text: "Возможность подставлять в ссылку информацию об устройстве пользователя, его стране, городе, мобильном операторе и других характеристиках."
+  },
+  {
+    title: "Статистика",
+    text: "Отслеживание статистики по дням, странам, городам, устройствам, брендам мобильных устройств, ОС, браузерам, языкам, интернет-провайдерам и используемым прокси."
+  },
+  {
+    title: "API",
+    text: "Возможность отслеживать подробную информацию по каждому переходу, начиная с источника перехода и других детальных данных."
+  }
+];
+
+const settings = ['UTM-метки',
+  'Ретаргетинг пиксели',
+  'Мониторинг сайта',
+  'Временная ссылка',
+  'Ограничение доступа',
+  'Оповещение о переходах',
+  'Доступ к ссылке через SMS или Email подтверждение']
+
+const qa = [
+  {
+    question: 'Чей Крым?',
+    ans: "Россия"
+  },
+  {
+    question: 'Кто аобедил на выборых на украине в 2024?',
+    ans: "РоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссия"
+  },
+  {
+    question: 'Кто аобедил на выборых на украине в 2024?',
+    ans: "РоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссия"
+  },
+  {
+    question: 'Кто аобедил на выборых на украине в 2024?',
+    ans: "РоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссия"
+  },
+  {
+    question: 'Кто аобедил на выборых на украине в 2024?',
+    ans: "РоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссия"
+  },
+  {
+    question: 'Кто аобедил на выборых на украине в 2024?',
+    ans: "РоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссия"
+  },
+  {
+    question: 'Кто аобедил на выборых на украине в 2024?',
+    ans: "РоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссия"
+  },
+  {
+    question: 'Кто аобедил на выборых на украине в 2024?',
+    ans: "РоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссия"
+  },
+  {
+    question: 'Кто аобедил на выборых на украине в 2024?',
+    ans: "РоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссия"
+  },
+  {
+    question: 'Кто аобедил на выборых на украине в 2024?',
+    ans: "РоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссия"
+  },
+  {
+    question: 'Кто аобедил на выборых на украине в 2024?',
+    ans: "РоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссия"
+  },
+  {
+    question: 'Кто аобедил на выборых на украине в 2024?',
+    ans: "РоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссия"
+  },
+  {
+    question: 'Кто аобедил на выборых на украине в 2024?',
+    ans: "РоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссия"
+  }
+]
+
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <>    
+      <Image src='/fire2.png' className="absolute -z-20 opacity-30 overflow-hidden object-cover"
+            alt='огонек'
+            width={1920}
+            height={1080}/>
+      <Image src='/ellipse.svg' className="absolute -z-10 top-[940px]"
+            alt='эллипс'
+            width={1920}
+            height={500}/>
+      <Image src='/ellipse.svg' className="absolute -z-10 top-[920px]"
+            alt='эллипс'
+            width={1920}
+            height={500}/>
+      <Image src='/ellipse.svg' className="absolute -z-10 top-[930px]"
+            alt='эллипс'
+            width={1920}
+            height={500}/>  
+      <Image src='/ruchki.png' className="absolute z-10 top-[580px] right-[-0px]"
+            alt='бублик'
+            width={600}
+            height={600}/> 
+      <div className="w-4/5 mx-auto"> 
+        <TopBar/>
+        <div className="flex">
+          <div className="my-[190px] text-7xl gap-3 ">   
+            <div className="my-5 font-bold">Ваш трафик не</div>
+            <div className="my-5 font-bold">сгорит с нашими</div>
+            <div className="inline-flex font-bold">
+              ссылками 
+              <Image src='/pngaaa.com-3625526.png'
+                alt='огонек'
+                width={50}
+                height={50}/>
+            </div>
+          </div>
+          <Image src='/bublik.svg' className="min-w-[200px] "
+            alt='бублик'
+            width={600}
+            height={600}/>                         
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <div className="text-4xl my-7 mb-9">
+          Наш сервис будет полезен:
+        </div>
+        <div className="flex gap-4 w-3/5">
+          <OutlineBox className="flex-1 min-w-[200px]" title="01" text="Интернет маркетологам, которые работают с покупным трафиком и хотят получить информацию по его качеству и дополнительной информации о пользователях через макросы, а также кто занимается email рассылками"/>
+          <OutlineBox className="flex-1 min-w-[200px]" title="02" text="Владельцам сайтов, которые могут разместить ссылки на своих сайтах, отслеживать статистику переходов"/>
+          <OutlineBox className="flex-1 min-w-[200px]" title="03" text="Блогерам, которые делятся ссылками в профилях в соц сетях, также для отслеживания статистики переходов и заработка с рекламы"/>
+        </div>
+        <div className="text-8xl mt-[170px] mb-16">
+          Возможности сервера
+        </div>
+        <div className="grid grid-cols-2 gap-6">
+          {capabilities.map((capability, index)=>(
+            <OutlineBox key={index} title={capability.title} text={capability.text} className="px-4 py-4 "/>
+            ))}
+        </div>
+        <div className='outline rounded-xl'>
+        <div className='text-xl py-5 px-5 flex justify-between my-6'>
+        А также множество дополнительных настроек для ссылок, которые могут быть полезны в работе:
+
+        </div>
+          <div className='text-md pb-5 px-5'>
+            
+              {settings.map((setting, index)=>(
+                <div key={index} className="bg-white text-black rounded-xl inline-block px-6 mx-2 my-1">
+                  {setting}
+                </div>
+              ))}
+            
+          </div>
+        </div>
+        <div className="flex justify-center">
+        <Button className="bg-blue-500 f">Регистрация</Button>
+        </div>
+        <div className="text-8xl my-16">Вопросы ответы</div>
+        <div className="grid grid-cols-2 gap-6">
+          <div className="">
+            {qa.slice(0, Math.ceil(qa.length / 2)).map((item, index) => (
+              <div key={index} className="my-6">
+                <QA question={item.question} ans={item.ans}/>
+              </div>
+            ))}
+          </div>
+          <div>
+            {qa.slice(Math.ceil(qa.length / 2)).map((item, index) => (
+              <div key={index} className="my-6">
+                <QA question={item.question} ans={item.ans}/>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="text-8xl my-16">Тарифы</div>
+        <div className="flex">
+          <div className="flex flex-col">
+            <a className="my-3 mt-7">Максимум ссылок</a>
+            <Separator className="opacity-25"/>   
+            <a className="my-3">API</a>
+            <Separator className="opacity-25"/> 
+            <a className="my-3">Лимит запросов API в сек</a>
+            <Separator className="opacity-25"/> 
+            <a className="my-3">Telegram бот</a>
+            <Separator className="opacity-25"/> 
+            <a className="my-3">Получение лога клика по IP</a>
+          </div>
+         
+          
+          <PriceCard linkMax="546" api={true} lim={true} bot={false} log={true}/>
+          <PriceCard linkMax="546" api={true} lim={true} bot={false} log={true}/>  
+          <PriceCard linkMax="546" api={true} lim={true} bot={false} log={true}/>    
+        </div>
+        <div className="text-8xl my-16">Отзывы</div>
+        <Reviews/>
+        <div className="text-8xl my-16">Новости</div>
+        <div className="text-8xl my-16">Остались вопросы?</div>
+        <NewsCard/>
+      </div>      
+      </>     
   );
 }
